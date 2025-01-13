@@ -1,38 +1,116 @@
-.App {
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.title-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #000;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.content-container {
+  padding: 20px;
+  margin-top: 100px; /* to prevent content from overlapping the fixed header */
+}
+
+.controls {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.control-item label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.control-item select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.divider {
+  border: none; /* Remove default border styling */
+  border-top: 3px solid #ccc; /* custom border -- divider */
+}
+
+.securities-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.graph-container {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.bottom-container {
+  margin: 0px;
+  padding: 20px;
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.assumptions-and-graph {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around; 
+  gap: 20px; /* Space between the assumptions and graph */
+  margin: 0 auto; 
+  min-width: 1200px;
+  max-width: 1200px; /* Keeps the width consistent with the rest of the layout */
+}
+
+.assumptions {
+  flex: 0 0 25%; 
+  background-color: #fff; 
+  border: 1px solid #bebbbb;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+
+.assumptions h3 {
+  text-align: center;
+}
+
+.assumptions ul {
+  list-style-type: disc; 
+  margin: 0px; 
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.graph {
+  flex: 0 0 70%;
+  background-color: #fff; 
+  border: 1px solid #bebbbb;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.graph-placeholder {
+  height: 500px; /* Placeholder height for the graph */
+  background-color: #eaeaea;
+  border-radius: 10px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: #777;
 }
