@@ -3,6 +3,7 @@ import SecurityComponent from "./SecurityComponent";
 import OptionsGraph from "./OptionsGraph";
 import "./App.css";
 import { Dropdown, FillMenu } from "./BasicComponents";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   //this will get worse in the future with more features -- should find a way to make it more concise?
@@ -139,7 +140,7 @@ const App = () => {
 
       <div className="bottom-container">
         <a href="https://github.com/Sujal-Davhale/Options-Visualizer">Source</a>
-
+        <Analytics />
       </div>
       {/* For Debugging */}
       {/* <pre>{JSON.stringify(securities, null, 2)}</pre>  */}
