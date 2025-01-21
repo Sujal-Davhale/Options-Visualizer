@@ -3,6 +3,7 @@ import { Dropdown, FillMenu } from "./BasicComponents";
 import "./SecurityComponent.css";
 
 const SecurityComponent = ({ index, onUpdate, initialValues }) => {
+  //should fix this later
   const [type, setType] = useState(initialValues.type || "Call");
   const [position, setPosition] = useState(initialValues.position || "Long");
   const [strikePrice, setStrikePrice] = useState(initialValues.strikePrice || "");
@@ -11,11 +12,11 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
   const [fvBond, setFvBond] = useState(initialValues.fvBond || ""); // New field for bond future value
 
   useEffect(() => {
-    onUpdate(index, { type, position, strikePrice, premium, color, fvBond});
+    onUpdate(index, { type, position, strikePrice, premium, color, fvBond });
   }, [type, position, strikePrice, premium, color, fvBond]);
 
   const handleUpdate = () => {
-    onUpdate(index, { type, position, strikePrice, premium, color, fvBond});
+    onUpdate(index, { type, position, strikePrice, premium, color, fvBond });
   };
 
   return (
@@ -63,7 +64,7 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
           {/* Separator */}
           <div className="separator"></div>
           <div className="subsection">
-          {type !== "Stock" && type !== "Bond" ? (
+            {type !== "Stock" && type !== "Bond" ? (
               <>
                 <FillMenu
                   label="Strike Price"
@@ -99,25 +100,26 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
                   }}
                 />
 
-              <div className="hidden">
-                <FillMenu label="Placeholder" placeholder="" />
-              </div>
+                <div className="hidden">
+                  <FillMenu label="Placeholder" placeholder="" />
+                </div>
               </>
             )}
 
             {type === "Stock" && (
               <>
-              <div className="hidden">
-                <FillMenu label="Placeholder" placeholder="" />
-              </div>
+                <div className="hidden">
+                  <FillMenu label="Placeholder" placeholder="" />
+                </div>
 
-              <div className="hidden">
-                <FillMenu label="Placeholder" placeholder="" />
-              </div>
+                <div className="hidden">
+                  <FillMenu label="Placeholder" placeholder="" />
+                </div>
               </>
             )}
           </div>
           <div className="separator"></div>
+          {/* This is the third subsection that is blank for now -- will add future features here */}
           <div className="subsection">
             {/* <FillMenu
               label="Premium"

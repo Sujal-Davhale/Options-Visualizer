@@ -35,7 +35,7 @@ const OptionsGraph = ({ securities, graphType }) => {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Add gridlines
+    // Adding gridlines
     const xGrid = d3.axisBottom(xScale)
       .tickValues(d3.range(10, 201, 10))
       .tickSize(-height)
@@ -46,15 +46,15 @@ const OptionsGraph = ({ securities, graphType }) => {
       .tickSize(-width)
       .tickFormat("");
 
-    graph.append("g")
+    graph.append("g") //minor lines on the x axis
       .attr("class", "grid")
       .attr("transform", `translate(0,${height})`)
       .call(xGrid)
       .selectAll("line")
       .attr("stroke", "grey")
-      .attr("stroke-dasharray", "1,1");
+      .attr("stroke-dasharray", "1,1"); //can change this (1,1) for larger dashes
 
-    graph.append("g")
+    graph.append("g") //minor lines on the y axis
       .attr("class", "grid")
       .call(yGrid)
       .selectAll("line")
@@ -82,68 +82,68 @@ const OptionsGraph = ({ securities, graphType }) => {
 
     // Add X-axis label
     graph
-        .append("text")
-        .attr("x", width - 95)
-        .attr("y", height / 2 - 5)
-        .style("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("Value of Underlying Asset");
-  
-      // Add Y-axis label
-      graph
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2)
-        .attr("y", -40)
-        .style("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("Value of Security");
+      .append("text")
+      .attr("x", width - 95)
+      .attr("y", height / 2 - 5)
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("Value of Underlying Asset");
+
+    // Add Y-axis label
+    graph
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -40)
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("Value of Security");
 
     // Generate and plot individual securities
     const allData = [];
     securities.forEach((security) => {
-      const {type, position, fvBond} = security;
-      
-      if (type == "Bond" && fvBond) {
+      const { type, position, fvBond } = security;
+
+      if (type == "Bond") { //have not checked && fvBond --> can throw exception
         // Draw horizontal line for bonds
         const yValue = position === "Long" ? parseFloat(fvBond) : -parseFloat(fvBond);
 
         // Add bond data to allData for combined payoff
         const bondData = Array.from({ length: 201 }, (_, x) => ({
-            x,
-            y: yValue,
-          }));
-          allData.push(bondData);
+          x,
+          y: yValue,
+        }));
+        allData.push(bondData);
 
-        graph
+        graph //add to graph
           .append("line")
           .attr("x1", xScale(0))
           .attr("x2", xScale(200))
           .attr("y1", yScale(yValue))
           .attr("y2", yScale(yValue))
-          .attr("stroke", colorMapping[security.color] || "black")
+          .attr("stroke", colorMapping[security.color] || "black") //black means something went wrong with security color
           .attr("stroke-width", 2);
-       } else {
-    
+      } else { //call/put/stock
+
         const data = generateGraphData(security, graphType);
         allData.push(data);
 
         const line = d3
-            .line()
-            .x((d) => xScale(d.x))
-            .y((d) => yScale(d.y));
+          .line()
+          .x((d) => xScale(d.x))
+          .y((d) => yScale(d.y));
 
-        graph
-            .append("path")
-            .datum(data)
-            .attr("fill", "none")
-            .attr("stroke", colorMapping[security.color] || "black")
-            .attr("stroke-width", 2)
-            .attr("d", line);
-       }
+        graph //add to graph
+          .append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", colorMapping[security.color] || "black")
+          .attr("stroke-width", 2)
+          .attr("d", line);
+      }
     });
 
-    // Generate combined payoff data
+    // Generate combined payoff data (red line)
     if (securities.length > 1) {
       const combinedPayoffData = [];
       for (let x = 0; x <= 200; x += 1) {
@@ -153,7 +153,7 @@ const OptionsGraph = ({ securities, graphType }) => {
           if (point) {
             combinedY += point.y;
           }
-        });
+        }); //basically adding all y values at all x values --> 1200 operations max, should be fast
         combinedPayoffData.push({ x, y: combinedY });
       }
 

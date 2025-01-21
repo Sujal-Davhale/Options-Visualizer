@@ -1,0 +1,24 @@
+To add:
+
+To Test:
+1. use 444 spreads
+
+Later:
+1. Add time to maturity for each call/put --> 
+    Call the top box "Time to Mat for Graph"
+    have a check box that has "use for options" -- default is ticked
+    if not ticked --> have individual time to mat for each call/put
+        remove bonds from the list of securities as idk what math to use on that
+    
+    Use time to mat for graph as the period for the calendar spread
+        make sure to note next to check box that this means you are making a calendar spread
+
+2. Add default premium according to black scholes
+    Use default interest rate --> 5%?
+    Use prev day close VIX for market volatility (might need back end for APIs)
+    Make sure to mention this in the assumptions
+
+
+3. Add "Real Value" graph
+    Uses American Option as example, sets the Graph view to "Value Today"
+    Uses more fancy formula to calculate value of call/put/bond

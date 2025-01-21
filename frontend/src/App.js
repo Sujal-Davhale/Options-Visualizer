@@ -5,14 +5,15 @@ import "./App.css";
 import { Dropdown, FillMenu } from "./BasicComponents";
 
 const App = () => {
-  const [securities, setSecurities] = useState([{ type: "Call", position: "Long", strikePrice: 0, premium: 0, color: ""}]);
+  //this will get worse in the future with more features -- should find a way to make it more concise?
+  const [securities, setSecurities] = useState([{ type: "Call", position: "Long", strikePrice: 0, premium: 0, color: "", fvBond: 0 }]);
   const [numSecurities, setNumSecurities] = useState("1");
   const [timeToMaturity, setTimeToMaturity] = useState("");
   const [typeOfGraph, setTypeOfGraph] = useState("Payoff")
   const colors = ["Green", "Orange", "Saffron", "Dark Blue", "Purple", "Light Blue"];
 
 
-  const handleUpdate = (index, updatedSecurity) => {
+  const handleUpdate = (index, updatedSecurity) => { //managing add/remove number of securities correctly
     setSecurities((prevSecurities) => {
       const newSecurities = [...prevSecurities];
       newSecurities[index] = updatedSecurity;
@@ -32,7 +33,7 @@ const App = () => {
         // Add more securities if the current count is less
         for (let i = newSecurities.length; i < selectedNum; i++) {
           const color = colors[(i + 1) % colors.length]; // Cycle through colors for a new default value every time
-          newSecurities.push({
+          newSecurities.push({ //default values
             type: "Call",
             position: "Long",
             strikePrice: null,
@@ -106,19 +107,31 @@ const App = () => {
       </div>
       <div className="bottom-container">
         <div className="assumptions-and-graph">
-          <div className="assumptions">
-            <h3>Assumptions</h3>
-            <div className="list">
-              <ul>
-                <li>No dividends</li>
-                <li>European-style options</li>
-                <li>Risk-free rate is constant</li>
-                {/* Will add more assumptions here */}
-              </ul>
+          <div className="assumptions-and-notes">
+            <div className="notes-section">
+              <h3>Notes</h3>
+              <div className="list">
+                <ul>
+                  <li>Dotted red line is Payoff/Profit of the portfolio</li>
+                  <li>Premium is only used when "Profit" is chosen</li>
+                  <li>Time to maturity is used for all assets</li>
+                </ul>
+              </div>
             </div>
+            <div className="assumptions">
+              <h3>Assumptions</h3>
+              <div className="list">
+                <ul>
+                  <li>No dividends</li>
+                  <li>European-style options</li>
+                  <li>0 Coupon Bond</li>
+                  {/* <li>Risk-free rate is constant</li> */}
+                </ul>
+              </div>
+            </div>            
           </div>
           <div className="graph">
-            <h3 className="graph-title">{typeOfGraph} for Securities {timeToMaturity || 0} Months from Now</h3>
+            <h3 className="graph-title">{typeOfGraph} for Securities {timeToMaturity || 0} Months From Now</h3>
             <OptionsGraph securities={securities} graphType={typeOfGraph} />
           </div>
         </div>
@@ -126,9 +139,10 @@ const App = () => {
 
       <div className="bottom-container">
         <a href="https://github.com/Sujal-Davhale/Options-Visualizer">Source</a>
-      </div>
 
-      <pre>{JSON.stringify(securities, null, 2)}</pre> {/* For Debugging */}
+      </div>
+      {/* For Debugging */}
+      {/* <pre>{JSON.stringify(securities, null, 2)}</pre>  */}
     </div>
   );
 };
