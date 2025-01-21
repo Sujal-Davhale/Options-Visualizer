@@ -6,15 +6,16 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
   const [type, setType] = useState(initialValues.type || "Call");
   const [position, setPosition] = useState(initialValues.position || "Long");
   const [strikePrice, setStrikePrice] = useState(initialValues.strikePrice || "");
-  const [timeToMaturity, setTimeToMaturity] = useState(initialValues.timeToMaturity || "");
-  const [color, setColor] = useState(initialValues.color || "Red"); // Use initialValues.color
+  const [premium, setPremium] = useState(initialValues.premium || "");
+  const [color, setColor] = useState(initialValues.color || "Green");
+  const [fvBond, setFvBond] = useState(initialValues.fvBond || ""); // New field for bond future value
 
   useEffect(() => {
-    onUpdate(index, { type, position, strikePrice, timeToMaturity, color });
-  }, [type, position, strikePrice, timeToMaturity, color]);
+    onUpdate(index, { type, position, strikePrice, premium, color, fvBond});
+  }, [type, position, strikePrice, premium, color, fvBond]);
 
   const handleUpdate = () => {
-    onUpdate(index, { type, position, strikePrice, timeToMaturity, color });
+    onUpdate(index, { type, position, strikePrice, premium, color, fvBond});
   };
 
   return (
@@ -32,10 +33,10 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
                 setType(value);
                 if (value === "Stock" || value === "Bond") {
                   setStrikePrice(null);
-                  setTimeToMaturity(null);
+                  //setTimeToMaturity(null);
                 } else {
                   setStrikePrice(0);
-                  setTimeToMaturity(0);
+                  //setTimeToMaturity(0);
                 }
                 handleUpdate();
               }}
@@ -51,7 +52,7 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
             />
             <Dropdown
               label="Color"
-              options={["Red", "Blue", "Green", "Yellow", "Purple", "Black"]}
+              options={["Green", "Orange", "Saffron", "Dark Blue", "Purple", "Light Blue"]}
               defaultVal={color} // Use the passed color as default
               onChange={(value) => {
                 setColor(value);
@@ -62,41 +63,70 @@ const SecurityComponent = ({ index, onUpdate, initialValues }) => {
           {/* Separator */}
           <div className="separator"></div>
           <div className="subsection">
-            {type !== "Stock" && type !== "Bond" ? (
-              <FillMenu
-                label="Strike Price"
-                placeholder="Enter K in dollars"
-                value={strikePrice}
-                onChange={(value) => {
-                  setStrikePrice(value);
-                  handleUpdate();
-                }}
-              />
-            ) : (
+          {type !== "Stock" && type !== "Bond" ? (
+              <>
+                <FillMenu
+                  label="Strike Price"
+                  placeholder="Enter in $"
+                  value={strikePrice}
+                  onChange={(value) => {
+                    setStrikePrice(value);
+                    handleUpdate();
+                  }}
+                />
+                <FillMenu
+                  label="Premium"
+                  placeholder="Enter in $"
+                  value={premium}
+                  onChange={(value) => {
+                    setPremium(value);
+                    handleUpdate();
+                  }}
+                />
+              </>
+            ) : null}
+
+            {/* FV of Bond for bonds */}
+            {type === "Bond" && (
+              <>
+                <FillMenu
+                  label="FV of Bond"
+                  placeholder="Enter Future Value in $"
+                  value={fvBond}
+                  onChange={(value) => {
+                    setFvBond(value);
+                    handleUpdate();
+                  }}
+                />
+
               <div className="hidden">
-                <FillMenu label="" placeholder="" />
+                <FillMenu label="Placeholder" placeholder="" />
               </div>
+              </>
             )}
 
-            {type !== "Stock" && type !== "Bond" ? (
-              <FillMenu
-                label="Time to Maturity"
-                placeholder="Enter T in # of Months"
-                value={timeToMaturity}
-                onChange={(value) => {
-                  setTimeToMaturity(value);
-                  handleUpdate();
-                }}
-              />
-            ) : (
+            {type === "Stock" && (
+              <>
               <div className="hidden">
-                <FillMenu label="" placeholder="" />
+                <FillMenu label="Placeholder" placeholder="" />
               </div>
+
+              <div className="hidden">
+                <FillMenu label="Placeholder" placeholder="" />
+              </div>
+              </>
             )}
           </div>
           <div className="separator"></div>
           <div className="subsection">
-            <p>Future additions will go here.</p>
+            {/* <FillMenu
+              label="Premium"
+              placeholder="Default is Black Scholes Value"
+              value={}
+              onChange={(value) => {
+                
+              }}
+              /> */}
           </div>
         </div>
       </div>

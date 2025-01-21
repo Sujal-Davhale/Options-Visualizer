@@ -30,8 +30,14 @@ D7 = allows you to select the color of this line on the graph
 G1 will contain the graph, provided by D3.js.
 
 
+Broken:
 
 
-Things that are broken:
-1. how is the premium going to work?
+To add:
+5. scale graph dynamically
+6. notes -- premium only used when profit is chosen; time to maturity is for all assets; red line is the portfolio line
+
+
+Later:
 2. adding market volatility for black scholes?
+7. for calander spread --> what time period should the graph be displayed in?

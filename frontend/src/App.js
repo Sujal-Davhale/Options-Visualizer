@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SecurityComponent from "./SecurityComponent";
+import OptionsGraph from "./OptionsGraph";
 import "./App.css";
-import { Dropdown } from "./BasicComponents";
+import { Dropdown, FillMenu } from "./BasicComponents";
 
 const App = () => {
-  const [securities, setSecurities] = useState([{ type: "Call", position: "Long", strikePrice: null, timeToMaturity: null, color: "Red"}]);
+  const [securities, setSecurities] = useState([{ type: "Call", position: "Long", strikePrice: 0, premium: 0, color: ""}]);
   const [numSecurities, setNumSecurities] = useState("1");
-  const colors = ["Red", "Blue", "Green", "Yellow", "Purple", "Black", "Orange"];
+  const [timeToMaturity, setTimeToMaturity] = useState("");
+  const [typeOfGraph, setTypeOfGraph] = useState("Payoff")
+  const colors = ["Green", "Orange", "Saffron", "Dark Blue", "Purple", "Light Blue"];
 
 
   const handleUpdate = (index, updatedSecurity) => {
@@ -67,9 +70,23 @@ const App = () => {
           <div className="control-item">
             <Dropdown
               label="Type of Graph"
-              options={["Payoff", "Profit", "Real Value"]}
-              defaultValue="Payoff"
-              /* TO BE DONE: Set onchange to change the graph type, this will be done later. */
+              options={["Payoff", "Profit"]}
+              defaultValue={typeOfGraph}
+              onChange={(value) => {
+                setTypeOfGraph(value);
+              }}
+            />
+          </div>
+
+          <div className="control-item">
+            <FillMenu
+              label="Time to Maturity"
+              placeholder="Enter T in # of Months"
+              value={timeToMaturity}
+              onChange={(value) => {
+                setTimeToMaturity(value);
+                handleUpdate();
+              }}
             />
           </div>
         </div>
@@ -101,11 +118,14 @@ const App = () => {
             </div>
           </div>
           <div className="graph">
-            <h3>Graph</h3>
-            {/* Placeholder for the graph */}
-            <div className="graph-placeholder">[Graph will be displayed here]</div>
+            <h3 className="graph-title">{typeOfGraph} for Securities {timeToMaturity || 0} Months from Now</h3>
+            <OptionsGraph securities={securities} graphType={typeOfGraph} />
           </div>
         </div>
+      </div>
+
+      <div className="bottom-container">
+        <a href="https://github.com/Sujal-Davhale/Options-Visualizer">Source</a>
       </div>
 
       <pre>{JSON.stringify(securities, null, 2)}</pre> {/* For Debugging */}

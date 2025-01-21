@@ -3,6 +3,18 @@ body {
   font-family: Arial, sans-serif;
 }
 
+a.nostyle:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
+a.nostyle:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
 .title-bar {
   position: fixed;
   top: 0;
@@ -33,6 +45,7 @@ body {
   margin-bottom: 5px;
 }
 
+.control-item input,
 .control-item select {
   padding: 8px;
   border: 1px solid #ccc;
@@ -99,10 +112,11 @@ body {
 
 .graph {
   flex: 0 0 70%;
+  height: 665px;
   background-color: #fff; 
   border: 1px solid #bebbbb;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
 }
 
 .graph-placeholder {
